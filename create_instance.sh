@@ -21,7 +21,7 @@ NORMAL_HOME=`sudo -u $NORMAL_USER echo ~`
 echo "Installing env for user $NORMAL_USER"
 echo "Detecting GPU"
 DEVICE=CPU
-lspci | grep nVidia > /dev/null && DEVICE=GPU
+lspci | grep NVIDIA > /dev/null && DEVICE=GPU
 if [ "$DEVICE" == "CPU" ]; then
 echo "GPU not found"
 fi
@@ -31,8 +31,8 @@ echo "Setting locales"
 # locales
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
-BASHRC="${BASHRC}export 'LC_ALL=en_US.UTF-8'
-export 'LC_CTYPE=en_US.UTF-8'
+BASHRC="${BASHRC}export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 "
 
 
@@ -64,9 +64,9 @@ cp cuda/include/* /usr/local/cuda/include/
 rm -rf cuda* cudnn
 
 # env
-BASHRC="${BASHRC}export 'CUDA_HOME=/usr/local/cuda'
-export 'LD_LIBRARY_PATH=\${CUDA_HOME}/lib64:\$LD_LIBRARY_PATH'
-export 'PATH=\${CUDA_HOME}/bin:\${PATH}'
+BASHRC="${BASHRC}export CUDA_HOME=/usr/local/cuda
+export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64:\$LD_LIBRARY_PATH
+export PATH=\${CUDA_HOME}/bin:\${PATH}
 export THEANO_FLAGS=\"floatX=float32,device=gpu\"
 "
 export CUDA_HOME=/usr/local/cuda
@@ -113,6 +113,6 @@ chown "$NORMAL_USER":"$NORMAL_USER" * -R
 sudo -u "$NORMAL_USER" touch "$NORMAL_HOME"/.bashrc
 echo "$BASHRC" >> "$NORMAL_HOME"/.bashrc
 
-echo "Running jupyterhub in screen"
+echo "Running jupyter in screen"
 
-sudo -u ryadom screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate ; jupyterhub --ip=0.0.0.0 --port=8000 --no-ssl"
+sudo -u "$NORMAL_USER" screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate ; jupyter-notebook --ip=0.0.0.0 --port=8000 --no-browser"
