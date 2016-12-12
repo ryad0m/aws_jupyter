@@ -105,7 +105,7 @@ pip install -e AgentNet
 
 # end RL
 
-pip install jupyter seaborn sklearn tqdm scikit-image pandas jupyterhub
+pip install jupyter seaborn sklearn tqdm scikit-image pandas jupyterhub nltk
 
 echo "Making $NORMAL_USER owner of all data"
 chown "$NORMAL_USER":"$NORMAL_USER" * -R
