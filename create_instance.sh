@@ -84,11 +84,7 @@ pip install --upgrade pip
 
 echo "Installing python packages"
 
-if [ "$DEVICE" == "GPU" ]; then
-    pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl # GPU
-else
-    pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl # CPU
-fi
+pip install tensorflow
 
 pip install --upgrade https://github.com/Theano/Theano/archive/master.zip
 pip install --upgrade https://github.com/Lasagne/Lasagne/archive/master.zip
@@ -115,4 +111,4 @@ echo "$BASHRC" >> "$NORMAL_HOME"/.bashrc
 
 echo "Running jupyter in screen"
 
-sudo -u "$NORMAL_USER" screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate ; jupyter-notebook --ip=0.0.0.0 --port=8000 --no-browser"
+sudo -u "$NORMAL_USER" screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate ; jupyter-notebook --ip=0.0.0.0 --NotebookApp.token='' --port=8000 --no-browser"
