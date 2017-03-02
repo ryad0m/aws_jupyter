@@ -50,7 +50,7 @@ apt-get update && apt-get upgrade -y && apt-get install -y build-essential pkg-c
 wget 'http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.44-1_amd64.deb'
 dpkg -i cuda-repo-ubuntu1604_8.0.44-1_amd64.deb
 apt-get update && sudo apt-get install cuda -y
-sudo modprobe nvidia
+modprobe nvidia
 
 # cuDNN
 # Get link here: https://developer.nvidia.com/rdp/cudnn-download
