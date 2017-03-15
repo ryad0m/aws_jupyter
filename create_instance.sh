@@ -47,8 +47,8 @@ echo "Installing cuda"
 # CUDA
 apt-get update && apt-get upgrade -y && apt-get install -y build-essential pkg-config linux-image-generic linux-image-extra-virtual linux-source linux-headers-generic
 
-wget 'http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.44-1_amd64.deb'
-dpkg -i cuda-repo-ubuntu1604_8.0.44-1_amd64.deb
+wget 'http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb'
+dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
 apt-get update && sudo apt-get install cuda -y
 modprobe nvidia
 
@@ -57,7 +57,7 @@ modprobe nvidia
 
 echo "Installing cuDNN"
 
-wget 'https://github.com/ryad0m/aws_jupyter/releases/download/0.0/cudnn-8.0-linux-x64-v5.1.tgz' -O cudnn.tgz
+wget 'https://github.com/ryad0m/aws_jupyter/releases/download/5.1/cudnn-8.0-linux-x64-v5.1.tgz' -O cudnn.tgz
 tar -zxf cudnn.tgz
 cp cuda/lib64/* /usr/local/cuda/lib64/
 cp cuda/include/* /usr/local/cuda/include/
