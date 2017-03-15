@@ -107,8 +107,8 @@ echo "Making $NORMAL_USER owner of all data"
 chown "$NORMAL_USER":"$NORMAL_USER" * -R
 
 sudo -u "$NORMAL_USER" touch "$NORMAL_HOME"/.bashrc
-echo "$BASHRC" >> "$NORMAL_HOME"/.bashrc
+echo "$BASHRC" | cat - "$NORMAL_HOME"/.bashrc > temp && mv temp "$NORMAL_HOME"/.bashrc
 
 echo "Running jupyter in screen"
 
-sudo -u "$NORMAL_USER" screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate ; jupyter-notebook --ip=0.0.0.0 --NotebookApp.token='' --port=8000 --no-browser"
+sudo -u "$NORMAL_USER" screen -m -d -S "jupyter" bash -c "source $PWD/env/bin/activate; source "$NORMAL_HOME"/.bashrc ; jupyter-notebook --ip=0.0.0.0 --NotebookApp.token='' --port=8000 --no-browser"
