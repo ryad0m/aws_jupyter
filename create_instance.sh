@@ -24,6 +24,7 @@ DEVICE=CPU
 lspci | grep NVIDIA > /dev/null && DEVICE=GPU
 if [ "$DEVICE" == "CPU" ]; then
 echo "GPU not found"
+echo "Don't worry, sometimes you will have it ;-)"
 fi
 
 
@@ -61,7 +62,7 @@ wget 'https://github.com/ryad0m/aws_jupyter/releases/download/5.1/cudnn-8.0-linu
 tar -zxf cudnn.tgz
 cp cuda/lib64/* /usr/local/cuda/lib64/
 cp cuda/include/* /usr/local/cuda/include/
-rm -rf cuda* cudnn
+rm -rf cuda* cudnn.tgz
 
 # env
 BASHRC="${BASHRC}export CUDA_HOME=/usr/local/cuda
@@ -72,7 +73,8 @@ export THEANO_FLAGS=\"floatX=float32,device=gpu\"
 export CUDA_HOME=/usr/local/cuda
 export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
 export PATH=${CUDA_HOME}/bin:${PATH}
-export THEANO_FLAGS="floatX=float32,device=gpu"
+export THEANO_FLAGS="floatX=float32,device=cuda"
+
 #end CUDA
 fi
 
@@ -88,8 +90,24 @@ pip install tensorflow
 
 pip install --upgrade https://github.com/Theano/Theano/archive/master.zip
 pip install --upgrade https://github.com/Lasagne/Lasagne/archive/master.zip
-pip install cython
+pip install cython nose
 
+if [ "$DEVICE" == "GPU" ]; then
+echo "Installing libgpuarray for theano"
+git clone https://github.com/Theano/libgpuarray.git
+cd libgpuarray
+mkdir Build
+cd Build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make
+make install
+cd ..
+python setup.py build
+python setup.py install
+ldconfig
+cd ..
+rm -rf libgpuarray
+fi
 # RL
 
 git clone https://github.com/openai/gym.git
@@ -103,11 +121,12 @@ pip install -e AgentNet
 
 pip install jupyter seaborn sklearn tqdm scikit-image pandas jupyterhub nltk
 
+touch "$NORMAL_HOME"/.bashrc
+echo "$BASHRC" | cat - "$NORMAL_HOME"/.bashrc > temp && mv temp "$NORMAL_HOME"/.bashrc
+chown "$NORMAL_USER":"$NORMAL_USER" "$NORMAL_HOME"/.bashrc
+
 echo "Making $NORMAL_USER owner of all data"
 chown "$NORMAL_USER":"$NORMAL_USER" * -R
-
-sudo -u "$NORMAL_USER" touch "$NORMAL_HOME"/.bashrc
-echo "$BASHRC" | cat - "$NORMAL_HOME"/.bashrc > temp && mv temp "$NORMAL_HOME"/.bashrc
 
 echo "Running jupyter in screen"
 
