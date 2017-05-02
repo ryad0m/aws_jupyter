@@ -68,7 +68,7 @@ rm -rf cuda* cudnn.tgz
 BASHRC="${BASHRC}export CUDA_HOME=/usr/local/cuda
 export LD_LIBRARY_PATH=\${CUDA_HOME}/lib64:\$LD_LIBRARY_PATH
 export PATH=\${CUDA_HOME}/bin:\${PATH}
-export THEANO_FLAGS=\"floatX=float32,device=gpu\"
+export THEANO_FLAGS=\"floatX=float32,device=cuda\"
 "
 export CUDA_HOME=/usr/local/cuda
 export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:$LD_LIBRARY_PATH
